@@ -6,6 +6,8 @@ import com.co.pragma.aws.domain.model.Person;
 import com.co.pragma.aws.domain.spi.IPersonPersistencePort;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class PersonAdapter implements IPersonPersistencePort {
 
@@ -20,6 +22,11 @@ public class PersonAdapter implements IPersonPersistencePort {
     @Override
     public boolean existsPersonByIdOrEmail(Integer id, String email) {
         return personRepository.existsByIdOrEmail(id, email);
+    }
+
+    @Override
+    public Optional<Person> getPersonById(Integer id) {
+        return personRepository.findById(id).map(personEntityMapper::toDomain);
     }
 
 }
